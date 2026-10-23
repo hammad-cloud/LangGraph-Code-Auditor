@@ -20,7 +20,8 @@ Scanner Agent  →  Refactor Agent  →  Docs Agent
 ### 1. Clone & install
 
 ```bash
-cd langgraph-code-auditor
+git clone https://github.com/hammad-cloud/LangGraph-Code-Auditor.git
+cd LangGraph-Code-Auditor
 python -m venv .venv
 
 # Windows
@@ -49,13 +50,18 @@ streamlit run app.py
 
 Open **http://localhost:8501** in your browser.
 
+On Windows you can instead double-click `run.bat`: it creates the virtual environment on first run, installs the requirements and opens the app on **http://localhost:8504**.
+
 ## Project Structure
 
 ```
-langgraph-code-auditor/
-├── .env.example
+LangGraph-Code-Auditor/
+├── .streamlit/
+│   └── config.toml         # Streamlit theme and server settings
+├── .env.example            # GOOGLE_API_KEY and optional GEMINI_MODEL
 ├── .gitignore
 ├── requirements.txt
+├── run.bat                 # One-click start on Windows
 ├── README.md
 ├── app.py                  # Streamlit frontend
 └── src/
