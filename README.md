@@ -74,6 +74,28 @@ langgraph-code-auditor/
 4. Watch real-time progress as each agent completes.
 5. Review results in the **Audit Report**, **Clean Code**, and **Documentation** tabs.
 
+## Testing
+
+All tests use a fake LLM, so no API key or network access is needed.
+
+```bash
+pip install -r requirements-dev.txt
+
+pytest -m "not perf"          # unit, pipeline and security tests
+pytest -m perf                # performance, load and stress tests
+bandit -q -r src app.py       # static security scan
+pip-audit -r requirements.txt # dependency vulnerability scan
+```
+
+| Suite | File | Covers |
+|-------|------|--------|
+| Unit | `tests/test_utils.py` | API key resolution, code-block extraction, scanner parsing, language detection |
+| Pipeline | `tests/test_pipeline.py` | Each agent, error fallbacks, full and review-only graphs |
+| Security | `tests/test_security.py` | No API key leakage across sessions, prompt injection, regex DoS, hostile input |
+| Performance / load / stress | `tests/test_performance.py` | Graph overhead, 50 concurrent users, state isolation, 1 MB inputs, model outages under load |
+
+CI runs all of the above on every push and pull request (`.github/workflows/ci.yml`).
+
 ## Tech Stack
 
 - **Python 3.10+**
