@@ -266,8 +266,8 @@ def sanitize_report_markdown(text: object) -> str:
     if not normalized:
         return ""
 
-    # Remove markdown horizontal rules (---, ***, ___)
-    cleaned = re.sub(r"^\s*([-*_])\1{2,}\s*$", "", normalized, flags=re.MULTILINE)
+    # Remove markdown horizontal rules (---, ***, ___); [ \t] not \s, which spans lines and backtracks quadratically
+    cleaned = re.sub(r"^[ \t]*([-*_])\1{2,}[ \t]*$", "", normalized, flags=re.MULTILINE)
     # Drop duplicate top-level report title; UI already shows "Full Report"
     cleaned = re.sub(
         r"^#{1,3}\s*Code Review Report\s*\n?",
