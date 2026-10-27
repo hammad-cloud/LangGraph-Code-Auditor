@@ -15,6 +15,7 @@ from src.utils import (
     APIKeyError,
     SUPPORTED_LANGUAGES,
     UPLOAD_EXTENSIONS,
+    detect_language_from_code,
     detect_language_from_filename,
     get_api_key,
     language_label,
@@ -25,35 +26,6 @@ from src.agents import docs_agent, refactor_agent
 
 load_dotenv()
 
-
-def _detect_language_from_code(code: str) -> str | None:
-    """Guess language from common syntax in pasted source code."""
-    snippet = (code or "").lstrip()
-    if not snippet:
-        return None
-    if snippet.startswith("<?php"):
-        return "php"
-    if snippet.startswith("<!") or snippet.startswith("<html") or snippet.startswith("<div"):
-        return "html"
-    python_signals = (
-        "def ",
-        "import ",
-        "from ",
-        "class ",
-        "print(",
-        "elif ",
-        "self.",
-        '"""',
-        "async def ",
-    )
-    js_signals = ("function ", "const ", "let ", "=>", "console.log", "export ", "import {")
-    python_hits = sum(1 for token in python_signals if token in snippet)
-    js_hits = sum(1 for token in js_signals if token in snippet)
-    if python_hits >= 2 and python_hits >= js_hits:
-        return "python"
-    if js_hits >= 2 and js_hits > python_hits:
-        return "javascript"
-    return None
 
 DEFAULT_SAMPLE = '''def get_user(username):
     import sqlite3
@@ -493,7 +465,7 @@ def main() -> None:
         if not raw_code.strip():
             st.warning("Please paste some code before reviewing.")
         else:
-            detected = _detect_language_from_code(raw_code)
+            detected = detect_language_from_code(raw_code)
             if detected:
                 st.session_state.selected_language = detected
             try:
