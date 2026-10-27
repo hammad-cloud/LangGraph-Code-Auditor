@@ -67,7 +67,6 @@ def initialize_llm(
     """
     resolved_key = get_api_key(api_key)
     resolved_model = (model or os.getenv("GEMINI_MODEL") or DEFAULT_MODEL).strip()
-    os.environ["GOOGLE_API_KEY"] = resolved_key
 
     return ChatGoogleGenerativeAI(
         model=resolved_model,

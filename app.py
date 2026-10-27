@@ -419,16 +419,12 @@ def main() -> None:
 
     with st.sidebar:
         st.header("Settings")
-        env_key = os.getenv("GOOGLE_API_KEY", "") or os.getenv("GEMINI_API_KEY", "")
-        if "google_api_key_input" not in st.session_state:
-            st.session_state.google_api_key_input = (
-                "" if env_key == "your_google_api_key_here" else env_key
-            )
+        # Never prefill the server's key: it would be sent to every visitor's browser.
         api_key_input = st.text_input(
             "Google Gemini API Key",
             type="password",
             key="google_api_key_input",
-            help="Get a free key at aistudio.google.com/apikey",
+            help="Leave empty to use GOOGLE_API_KEY from the server's .env.",
         )
         st.caption("Required: [Google AI Studio](https://aistudio.google.com/apikey) Gemini key.")
         if st.button("Test API Key", use_container_width=True):
