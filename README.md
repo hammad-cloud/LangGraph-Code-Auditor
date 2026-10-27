@@ -1,5 +1,7 @@
 # LangGraph Sequential Code Auditor
 
+[![CI](https://github.com/hammad-cloud/LangGraph-Code-Auditor/actions/workflows/ci.yml/badge.svg)](https://github.com/hammad-cloud/LangGraph-Code-Auditor/actions/workflows/ci.yml)
+
 AI-powered development tool that scans, refactors, and documents Python source code through a sequential multi-agent pipeline powered by **LangGraph** and **Google Gemini** (`gemini-3.6-flash`).
 
 ## Architecture
