@@ -430,7 +430,7 @@ def main() -> None:
         temperature = st.slider("Temperature", 0.0, 1.0, 0.2, 0.1)
         uploaded = st.file_uploader("Upload file", type=UPLOAD_EXTENSIONS)
         if uploaded is not None:
-            st.session_state.input_code = uploaded.read().decode("utf-8")
+            st.session_state.input_code = uploaded.read().decode("utf-8", errors="replace")
             detected = detect_language_from_filename(uploaded.name)
             if detected:
                 st.session_state.selected_language = detected
